@@ -20,6 +20,8 @@ from backend.api_auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r"register", auth_views.RegisterView, basename="register")
+router.register(r"user", auth_views.UserView)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

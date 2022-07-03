@@ -8,6 +8,18 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from backend.finances.models import Budget
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    budgets = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Budget.objects.all()
+    )
+
+    class Meta:
+        model = User
+        fields = ["url", "username", "budgets"]
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
