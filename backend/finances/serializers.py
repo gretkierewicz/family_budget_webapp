@@ -14,6 +14,9 @@ class ShareBudgetWithSerializer(serializers.ModelSerializer):
 
 
 class BudgetSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    source: https://gist.github.com/ph3b/98b9aeaff4f86527dc5a523f321cac7e
+    """
     owner = serializers.ReadOnlyField(source="owner.username")
     shared_with = ShareBudgetWithSerializer(source="budgetsharedwith_set", many=True)
 
