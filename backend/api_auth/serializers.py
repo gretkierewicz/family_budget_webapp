@@ -12,10 +12,6 @@ from backend.finances.models import Budget
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    budgets = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Budget.objects.all()
-    )
-
     class Meta:
         model = User
         fields = ["url", "username", "budgets"]
