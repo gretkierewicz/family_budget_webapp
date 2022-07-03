@@ -24,4 +24,5 @@ router.register(r"register", auth_views.RegisterView, basename="register")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
+    path("auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
