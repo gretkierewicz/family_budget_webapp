@@ -1,7 +1,7 @@
-from rest_framework import permissions, viewsets
+from rest_framework import mixins, permissions, viewsets
 
 from backend.finances.models import Budget
-from backend.finances.serializers import BudgetSerializer
+from backend.finances.serializers import BudgetSerializer, SharedBudgetSerializer
 
 
 class BudgetView(viewsets.ModelViewSet):
@@ -15,3 +15,15 @@ class BudgetView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class SharedBudgetView(
+    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
+    queryset = Budget.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = SharedBudgetSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Budget.objects.filter(shared_with=user)
