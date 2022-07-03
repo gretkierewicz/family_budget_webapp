@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from backend.auth import views as auth_views
+from backend.api_auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r"register", auth_views.RegisterView, basename="register")
@@ -24,5 +24,5 @@ router.register(r"register", auth_views.RegisterView, basename="register")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
-    path("auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("api_auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]

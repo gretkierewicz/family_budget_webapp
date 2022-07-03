@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import AllowAny
 
-from backend.auth.serializers import RegisterSerializer
+from backend.api_auth.serializers import RegisterSerializer
 
 
 class RegisterView(mixins.CreateModelMixin, viewsets.GenericViewSet):
