@@ -8,13 +8,11 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from backend.finances.models import Budget
-
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ["url", "username", "budgets"]
+        fields = ["url", "username", "budgets", "shared_budgets"]
 
 
 class RegisterSerializer(serializers.ModelSerializer):
