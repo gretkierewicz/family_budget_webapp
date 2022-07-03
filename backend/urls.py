@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from backend.api_auth import views as auth_views
+from backend.finances import views as finance_views
 
 router = routers.DefaultRouter()
 router.register(r"register", auth_views.RegisterView, basename="register")
 router.register(r"user", auth_views.UserView)
+router.register(r"finances", finance_views.BudgetView)
 
 
 urlpatterns = [
