@@ -1,7 +1,12 @@
 from rest_framework import mixins, permissions, viewsets
+from rest_framework_nested.viewsets import NestedViewSetMixin
 
-from backend.finances.models import Budget
-from backend.finances.serializers import BudgetSerializer, SharedBudgetSerializer
+from backend.finances.models import Budget, CashFlow
+from backend.finances.serializers import (
+    BudgetSerializer,
+    CashFlowSerializer,
+    SharedBudgetSerializer,
+)
 
 
 class BudgetView(viewsets.ModelViewSet):
@@ -27,3 +32,9 @@ class SharedBudgetView(
     def get_queryset(self):
         user = self.request.user
         return Budget.objects.filter(shared_with=user)
+
+
+class CashFlowView(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = CashFlow.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = CashFlowSerializer

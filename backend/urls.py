@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
+from rest_framework_nested import routers
 from backend.api_auth import views as auth_views
 from backend.finances import views as finance_views
 
@@ -26,10 +26,13 @@ router.register(r"budgets", finance_views.BudgetView)
 router.register(
     r"shared_budgets", finance_views.SharedBudgetView, basename="shared_budgets"
 )
+cash_flows_router = routers.NestedDefaultRouter(router, r"budgets", lookup="budget")
+cash_flows_router.register(r"cashflows", finance_views.CashFlowView)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("", include(router.urls)),
+    path("", include(cash_flows_router.urls)),
     path("api_auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]

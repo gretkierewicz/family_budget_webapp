@@ -1,8 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import transaction
 from rest_framework import serializers
+from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
-from backend.finances.models import Budget, BudgetSharedWith
+from backend.finances.models import Budget, BudgetSharedWith, CashFlow
+
+
+class CashFlowSerializer(NestedHyperlinkedModelSerializer):
+    class Meta:
+        model = CashFlow
+        fields = "__all__"
+        extra_kwargs = {"amount": {"min_value": 0}}
+
+    parent_lookup_kwargs = {"budget_pk": "budget__pk"}
 
 
 class ShareBudgetWithSerializer(serializers.ModelSerializer):
@@ -26,11 +36,13 @@ class BudgetSerializer(serializers.HyperlinkedModelSerializer):
     """
     source: https://gist.github.com/ph3b/98b9aeaff4f86527dc5a523f321cac7e
     """
+
     shared_with = ShareBudgetWithSerializer(source="budgetsharedwith_set", many=True)
+    cash_flows = CashFlowSerializer(read_only=True, many=True)
 
     class Meta:
         model = Budget
-        fields = ["url", "name", "shared_with"]
+        fields = ["url", "name", "shared_with", "cash_flows"]
 
     @staticmethod
     def process_shared_list(budget, users_list):
