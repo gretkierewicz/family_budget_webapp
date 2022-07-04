@@ -13,6 +13,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ["url", "username", "budgets", "shared_budgets"]
+        extra_kwargs = {"shared_budgets": {"view_name": "shared_budgets-detail"}}
 
 
 class RegisterSerializer(serializers.ModelSerializer):

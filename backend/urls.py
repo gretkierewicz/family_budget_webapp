@@ -22,8 +22,10 @@ from backend.finances import views as finance_views
 router = routers.DefaultRouter()
 router.register(r"register", auth_views.RegisterView, basename="register")
 router.register(r"user", auth_views.UserView)
-router.register(r"budgets", finance_views.BudgetView, basename="budgets")
-router.register(r"shared_budgets", finance_views.SharedBudgetView)
+router.register(r"budgets", finance_views.BudgetView)
+router.register(
+    r"shared_budgets", finance_views.SharedBudgetView, basename="shared_budgets"
+)
 
 
 urlpatterns = [

@@ -19,6 +19,7 @@ class SharedBudgetSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Budget
         fields = ["url", "owner", "name"]
+        extra_kwargs = {"url": {"view_name": "shared_budgets-detail"}}
 
 
 class BudgetSerializer(serializers.HyperlinkedModelSerializer):
