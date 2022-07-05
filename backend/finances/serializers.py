@@ -4,9 +4,15 @@ from rest_framework import serializers
 from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
 from backend.finances.models import Budget, BudgetSharedWith, CashFlow
+from backend.utils import ParentHiddenRelatedField
 
 
 class CashFlowSerializer(NestedHyperlinkedModelSerializer):
+    budget = ParentHiddenRelatedField(
+        queryset=Budget.objects.all(),
+        parent_lookup_kwargs={"budget_pk": "pk"}
+    )
+
     class Meta:
         model = CashFlow
         fields = "__all__"
